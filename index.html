@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      background-color: black;
+      color: red;
+      font-family: monospace;
+      text-align: center;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    .heart {
+      font-size: 64px;
+      margin-bottom: 30px;
+    }
+    .question {
+      font-size: 24px;
+      margin-bottom: 20px;
+      line-height: 1.4;
+    }
+    button {
+      font-size: 18px;
+      padding: 12px 24px;
+      margin: 10px 5px;
+      background-color: transparent;
+      border: 2px solid red;
+      color: red;
+      cursor: pointer;
+      border-radius: 6px;
+      width: 130px;
+    }
+    button:hover {
+      background-color: red;
+      color: black;
+    }
+    .timer {
+      font-size: 22px;
+      color: crimson;
+      margin-top: 20px;
+    }
+    @media (max-width: 500px) {
+      .question { font-size: 20px; }
+      button { width: 100%; max-width: 200px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="heart">❤️</div>
+
+  <div id="content">
+    <div class="question">Do you love me?</div>
+    <button onclick="nextQuestion()">YES</button>
+    <button onclick="startDestruction()">NO</button>
+  </div>
+
+  <script>
+    let step = 0;
+
+    function nextQuestion() {
+      const content = document.getElementById('content');
+      if (step === 0) {
+        content.innerHTML = `
+          <div class="question">Will you marry me?</div>
+          <button onclick="showYay()">YES</button>
+          <button onclick="askAgain()">NO</button>
+        `;
+        step = 1;
+      }
+    }
+
+    function askAgain() {
+      const content = document.getElementById('content');
+      content.innerHTML = `
+        <div class="question">Are you sure?</div>
+        <button onclick="showYay()">YES</button>
+        <button onclick="startDestruction()">NO</button>
+      `;
+    }
+
+    function showYay() {
+      const content = document.getElementById('content');
+      content.innerHTML = `
+        <div class="heart">❤️</div>
+        <div class="question" style="font-size: 28px;">YAAAY! I LOVE YOU ❤️</div>
+      `;
+    }
+
+    function startDestruction() {
+      const content = document.getElementById('content');
+      let seconds = 10;
+      content.innerHTML = `
+        <div class="question">❌ WRONG ANSWER</div>
+        <div class="timer" id="timer">Device will self-destruct in ${seconds}...</div>
+      `;
+      const countdown = setInterval(() => {
+        seconds--;
+        document.getElementById('timer').textContent = `Device will self-destruct in ${seconds}...`;
+        if (seconds <= 0) {
+          clearInterval(countdown);
+          content.innerHTML = `<div class="question">💥 BOOM 💥</div>`;
+        }
+      }, 1000);
+    }
+  </script>
+
+</body>
+</html>
